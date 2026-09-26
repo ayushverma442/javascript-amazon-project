@@ -1,4 +1,4 @@
-import {cart} from '../data/cart.js';
+import {cart,addToCart,addedText} from '../data/cart.js';
 import {products} from '../data/products.js';
 let productsHTML='';
 
@@ -53,47 +53,26 @@ products.forEach((product)=>{
         </div>`;
 });
 
+
+function updateCartQuantity(){
+  let cartQuantity=0;
+        cart.forEach((cartItem)=>{
+          cartQuantity+=cartItem.quantity;
+        })
+        document.querySelector(".js-cart").innerHTML=cartQuantity;
+}
+
+
 const addedMessageTimeouts = {};
 document.querySelector(".js-products-grid").innerHTML=productsHTML;
 document.querySelectorAll(".js-add-to-cart").forEach((button)=>{
     button.addEventListener('click',()=>{
         const productId=button.dataset.productId;
-
        
-        const quantitySelector=document.querySelector(`.quantity-selector-${productId}`);
-        const quantity=Number(quantitySelector.value);
-        let matchingItem;
-        cart.forEach((item)=>{
-            if(item.productId===productId){
-                matchingItem=item;
-            }
-        });
-        if(matchingItem){
-            matchingItem.quantity+=quantity;
-        }else{
-            cart.push({
-                productId:productId,
-                quantity:quantity
-            });
-        }
-        let cartQuantity=0;
-        cart.forEach((item)=>{
-          cartQuantity+=item.quantity;
-        })
-        document.querySelector(".js-cart").innerHTML=cartQuantity;
+         addToCart(productId);
+        
+         updateCartQuantity();
 
-         const addedToCartElement=document.querySelector(`.js-added-to-cart-${productId}`);
-         addedToCartElement.classList.add('added-to-cart-visible');
-
-         const previousTimeoutId = addedMessageTimeouts[productId];
-
-        if (previousTimeoutId) {
-            clearTimeout(previousTimeoutId);
-        }
-        const timeoutId = setTimeout(() => {
-            addedToCartElement.classList.remove("added-to-cart-visible");
-        }, 2000);
-
-        addedMessageTimeouts[productId] = timeoutId;
+        addedText(productId);
     })
 })

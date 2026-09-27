@@ -18,7 +18,7 @@ export function addToCart(productId){
   let matchingItem;
   cart.forEach((cartItem)=>{
       if(cartItem.productId===productId){
-          matchingItem=item;
+          matchingItem=cartItem;
       }
   });
   if(matchingItem){
@@ -56,4 +56,41 @@ export function removeFromCart(productId){
     });
     cart=newCart;
     saveToStorage();
+    updateCartQuantity();
+}
+
+export function updateCartQuantity() {
+    let cartQuantity = 0;
+
+    cart.forEach((cartItem) => {
+        cartQuantity += cartItem.quantity;
+    });
+
+    const cartElement = document.querySelector(".js-cart");
+
+    if (cartElement) {
+        cartElement.innerHTML = cartQuantity;
+    }
+
+    const quantitySummary = document.querySelector(".quantity-summary");
+
+    if (quantitySummary) {
+        quantitySummary.innerHTML = `Checkout (<a class="return-to-home-link"
+            href="amazon.html">${cartQuantity} items</a>)`;
+    }
+}
+
+
+export function updateQuantity(productId, newQuantity) {
+  let matchingItem;
+
+  cart.forEach((cartItem) => {
+    if (productId === cartItem.productId) {
+      matchingItem = cartItem;
+    }
+  });
+
+  matchingItem.quantity = newQuantity;
+
+  saveToStorage();
 }

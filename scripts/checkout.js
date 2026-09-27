@@ -1,4 +1,4 @@
-import {cart,removeFromCart,updateCartQuantity,updateQuantity} from '../data/cart.js';
+import {cart,removeFromCart,updateCartQuantity,updateQuantity, updateDeliveryOption} from '../data/cart.js';
 import { products } from '../data/products.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import {deliveryOptions} from '../data/deliveryoptions.js';
@@ -32,10 +32,9 @@ cart.forEach((cartItem)=>{
     const dateString=deliveryDate.format('dddd, MMMM D');
 
     cartSummary+=`<div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
-        <div class="delivery-date">
+        <div class="delivery-date ">
         Delivery date: ${dateString}
         </div>
-
         <div class="cart-item-details-grid">
         <img class="product-image"
             src="${matchingProduct.image}">
@@ -85,7 +84,9 @@ cart.forEach((cartItem)=>{
         const priceString = deliveryoption.priceCents ===0? 'FREE':`$${(deliveryoption.priceCents/100).toFixed(2)}`;
             const isChecked=deliveryoption.id===cartItem.deliveryOptionId;
 
-            html+=`<div class="delivery-option">
+            html+=`<div class="delivery-option js-delivery-option"
+            data-product-id="${matchingProduct.id}"
+            data-delivery-option-id="${deliveryoption.id}">
             <input type="radio"
                 ${isChecked?'checked':''}
                 class="delivery-option-input"
@@ -101,7 +102,7 @@ cart.forEach((cartItem)=>{
             </div>
             `
         })
-        return html
+        return html;
     }
     document.querySelector(".js-order-summary").innerHTML=cartSummary;
     document.querySelectorAll(".js-delete-link").forEach((link)=>{
@@ -146,4 +147,15 @@ cart.forEach((cartItem)=>{
             updateCartQuantity();
         });
     });
+})
+
+document.querySelectorAll('.js-delivery-option')
+.forEach((element)=>{
+    element.addEventListener('click',()=>{
+        const {productId,deliveryOptionId}=element.dataset;
+        console.log(productId);
+        console.log(deliveryOptionId);
+        updateDeliveryOption(productId,deliveryOptionId);
+        location.reload();
+    })
 })

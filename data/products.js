@@ -104,7 +104,7 @@ export let products=[];
 
 export function loadProducts(fun){
   const xhr=new XMLHttpRequest();
-
+  console.log("load product");
   xhr.addEventListener('load',()=>{
     products=JSON.parse(xhr.response).map((productDetails)=>{
     if(productDetails.type==='clothing'){

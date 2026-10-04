@@ -1,8 +1,10 @@
 import {cart} from '../data/cart-class.js';
-import {products} from '../data/products.js';
+import {products,loadProducts} from '../data/products.js';
 let productsHTML='';
 
-products.forEach((product)=>{
+loadProducts(renderProductsGrid);
+function renderProductsGrid(){
+  products.forEach((product)=>{
     productsHTML+=` <div class="product-container">
           <div class="product-image-container">
             <img class="product-image"
@@ -53,17 +55,18 @@ products.forEach((product)=>{
             Add to Cart
           </button>
         </div>`;
-});
+``});
 
 
-document.querySelector(".js-products-grid").innerHTML=productsHTML;
-cart.updateCartQuantity();
-document.querySelectorAll(".js-add-to-cart").forEach((button)=>{
-    button.addEventListener('click',()=>{
-        const productId=button.dataset.productId;
-       
-         cart.addToCart(productId);
-         cart.updateCartQuantity();
-         cart.addedText(productId);
-    })
-})
+  document.querySelector(".js-products-grid").innerHTML=productsHTML;
+  cart.updateCartQuantity();
+  document.querySelectorAll(".js-add-to-cart").forEach((button)=>{
+      button.addEventListener('click',()=>{
+          const productId=button.dataset.productId;
+        
+          cart.addToCart(productId);
+          cart.updateCartQuantity();
+          cart.addedText(productId);
+      });
+  });
+}

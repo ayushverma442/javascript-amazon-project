@@ -7,8 +7,13 @@ import { loadProducts,loadProductsFetch } from "../data/products.js";
 
 
 async function loadPage(){
-    await loadProductsFetch();
-     renderCheckoutHeader();
+    try{
+        // throw 'error1'
+        await loadProductsFetch();
+    }catch(error){
+        console.log('Unexpected Error.Please try again.');
+    }
+    renderCheckoutHeader();
     renderOrderSummary();
     renderPaymentSummary();
 }

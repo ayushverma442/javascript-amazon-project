@@ -73,6 +73,7 @@ export function renderPaymentSummary(){
       }catch(error){
         console.log('Unexpected Error. Please try again later');
       }
+      cart.clearCart();
       window.location.href='orders.html';
   });
 }

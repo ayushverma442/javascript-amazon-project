@@ -97,6 +97,10 @@ class Cart{
 
         this.addedMessageTimeouts[productId] = timeoutId;
     };
+    clearCart(){
+        this.cartItems=[];
+        this.saveToStorage();
+    }
 
     updateCartQuantity() {
         let cartQuantity = 0;

@@ -1,11 +1,14 @@
 import {orders} from '../data/orders.js';
 import { getProduct,loadProductsFetch} from '../data/products.js';
 import { products } from '../data/products.js';
+import { cart } from '../../data/cart-class.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
 loadProductsFetch().then(()=>{
     let Orderhtml='';
     orders.forEach((order)=>{
+        if(order.errorMessage)
+            return;
         console.log(order);
         let productsHtml='';
         const orderDate=dayjs(order.orderTime).format('MMMM D');
@@ -29,7 +32,8 @@ loadProductsFetch().then(()=>{
                     <div class="product-quantity">
                         Quantity: ${orderProduct.quantity}
                     </div>
-                    <button class="buy-again-button button-primary">
+                    <button class="buy-again-button button-primary js-buy-again"
+                    data-product-id="${orderProduct.productId}">
                         <img class="buy-again-icon" src="images/icons/buy-again.png">
                         <span class="buy-again-message">Buy it again</span>
                     </button>
@@ -71,6 +75,20 @@ loadProductsFetch().then(()=>{
         `;
     });
     document.querySelector(".orders-grid").innerHTML=Orderhtml;
+    document.querySelectorAll(".js-buy-again").forEach((button)=>{
+        button.addEventListener('click',()=>{
+            const productId=button.dataset.productId;
+            cart.addToCart(productId,1);
+            cartQuantityOrders();
+        })
+    })
 })
 
+function cartQuantityOrders(){
+    let orderCount=0;
+    cart.cartItems.forEach((cartItem)=>{
+        orderCount+=cartItem.quantity;
+    });
+    document.querySelector(".cart-quantity").innerHTML=orderCount;
+}
 //console.log(orders);

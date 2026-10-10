@@ -23,9 +23,11 @@ class Cart{
     saveToStorage(){                            localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
     };
 
-    addToCart(productId){
-        const quantitySelector=document.querySelector(`.quantity-selector-${productId}`);
-        const quantity=Number(quantitySelector.value);
+    addToCart(productId,quantity){
+        if(quantity===undefined){
+            const quantitySelector=document.querySelector(`.quantity-selector-${productId}`);
+            const quantity=Number(quantitySelector.value);
+        }
         let matchingItem;
         this.cartItems.forEach((cartItem)=>{
             if(cartItem.productId===productId){

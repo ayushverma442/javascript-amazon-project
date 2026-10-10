@@ -26,7 +26,7 @@ class Cart{
     addToCart(productId,quantity){
         if(quantity===undefined){
             const quantitySelector=document.querySelector(`.quantity-selector-${productId}`);
-            const quantity=Number(quantitySelector.value);
+            quantity=Number(quantitySelector.value);
         }
         let matchingItem;
         this.cartItems.forEach((cartItem)=>{

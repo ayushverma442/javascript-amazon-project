@@ -15,6 +15,14 @@ loadProductsFetch().then(()=>{
         order.products.forEach((orderProduct)=>{
             const deliveryDate=dayjs(orderProduct.estimatedDeliveryTime);
             const dateString=deliveryDate.format('MMMM D');
+            const today=dayjs();
+            const isDelivered=today.isAfter(deliveryDate,'Day');
+            let deliveryDateText;
+            if(isDelivered){
+                deliveryDateText='Delivered';
+            }else{
+                deliveryDateText=`Arriving on: ${dateString}`;
+            }
             const product=getProduct(orderProduct.productId);
             console.log(product);
             productsHtml+=`
@@ -27,7 +35,7 @@ loadProductsFetch().then(()=>{
                     ${product.name}
                     </div>
                     <div class="product-delivery-date">
-                        Arriving on: ${dateString}
+                        ${deliveryDateText}
                     </div>
                     <div class="product-quantity">
                         Quantity: ${orderProduct.quantity}
@@ -39,7 +47,7 @@ loadProductsFetch().then(()=>{
                     </button>
                     </div>
                     <div class="product-actions">
-                    <a href="tracking.html">
+                    <a href="tracking.html?orderId=${order.id}&productId=${orderProduct.productId}">
                         <button class="track-package-button button-secondary">
                             Track package
                         </button>

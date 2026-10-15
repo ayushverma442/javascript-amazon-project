@@ -166,7 +166,7 @@ javascript-amazon-project/
 │   └── ...
 ├── styles/
 │   └── ...
-├── Amazon.html
+├── index.html
 ├── checkout.html
 ├── orders.html
 ├── tracking.html

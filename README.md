@@ -36,6 +36,13 @@ Rather than focusing only on the user interface, this project explores
 how multiple pages and JavaScript modules work together to create
 a functional shopping experience.
 
+## 🌐 Live Demo
+
+**[View the Amazon Clone](https://javascript-amazon-project-six.vercel.app/)**
+
+Explore the shopping interface, cart management, checkout, order history,
+and tracking features.
+
 ## 📸 Application Preview
 
 ### 🛍️ Home Page
